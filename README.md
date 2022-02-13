@@ -1,4 +1,4 @@
-# v0.1
+# Užduotis_vidurkių_apskaičiaviumui
 ## Objektinio programavimo pirmoji užduotis
 
 Programa nuskaito vartotojų įvedamus reikiamus duomenis (struktūros elementai):
