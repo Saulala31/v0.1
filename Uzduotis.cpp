@@ -9,8 +9,8 @@ using namespace std;
 
 struct data{
     string vardas, pavarde;
-    int paz[50], egz, paz_sk = 0;
-    double rezult;
+    int paz[50] = {0}, egz = 0, paz_sk = 0;
+    double vid, med = 0;
     data *next;
 };
 
@@ -19,6 +19,7 @@ void isvestis(data*);
 void add_mok(data *&root);
 string PavertimasDidziosiomisR(string s);
 bool Ar_tai_yra_skaicius(string str);
+double Mediana(int a[], int k);
 
 int main(){
     data *root = NULL;
@@ -43,7 +44,7 @@ void ivestis(data& temp){
     cout << "Iveskite varda: "; cin >> temp.vardas;
     cout << "Iveskite pavarde: "; cin >> temp.pavarde;
     string n("T");
-    cout << "Veskite mokinio pazymius"<< endl << "Pazymiai gali buti tik tarp 1-10"<<endl<<
+    cout << endl << "Veskite mokinio pazymius"<< endl << "Pazymiai gali buti tik tarp 1-10"<<endl<<
      "Noredami uzbaigti pazymiu vedima irasykite: B"<<endl; 
     while(n!="B"){
         cin >> n;
@@ -75,12 +76,22 @@ void ivestis(data& temp){
              n.assign("T");
           }
           else {
-              temp.paz[temp.paz_sk] = x;
-              temp.paz_sk++;
+              temp.egz = x;
               break;
           }
         }
     }
+    if (temp.paz_sk != 0){
+      int suma = 0; 
+      for (int i=0; i<temp.paz_sk; i++) suma = suma + temp.paz[i];
+      temp.vid = (suma/temp.paz_sk)*0.4+0.6*temp.egz;
+      temp.med = Mediana(temp.paz, temp.paz_sk);
+    }
+    else temp.vid = 0.6*temp.egz;
+
+    cout << "vidurkis  : "<< temp.vid << "  Mediana: "<< temp.med << endl;
+
+
 }   
 
 void isvestis(data *root){
@@ -121,4 +132,13 @@ bool Ar_tai_yra_skaicius(string str) {
    if (isdigit(str[i]) == false)
       return false;
       return true;
+}
+double Mediana(int a[], int k){
+    sort(a, a + k);
+    if (k % 2 == 0){
+        return (1.0*a[k/2] + 1.0*a[(k/2) - 1])/2;
+      }
+    else {
+        return a[k/2];
+    }
 }
