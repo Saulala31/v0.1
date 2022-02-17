@@ -45,11 +45,22 @@ void ivestis(data& temp){
     cout << "Iveskite pavarde: "; cin >> temp.pavarde;
     string n("T");
     cout << endl << "Veskite mokinio pazymius"<< endl << "Pazymiai gali buti tik tarp 1-10"<<endl<<
-     "Noredami uzbaigti pazymiu vedima irasykite: B"<<endl; 
+     "Noredami uzbaigti pazymiu vedima irasykite: B"<<endl<<
+    "** Jeigu norite, kad mokinio pazymius sugeneruotu atsitiktinius rasykite: A" <<endl;
     while(n!="B"){
         cin >> n;
         n = PavertimasDidziosiomisR(n);
         if (n == "B") break;
+        else if (n == "A"){
+            cout << "Kiek pazymiu norite sugeneruoti?" << endl;
+            cin >> temp.paz_sk; cout << temp.paz_sk<<endl;
+            for (int i = 0; i <temp.paz_sk; i++){
+              temp.paz[i] = rand() % 10 + 1;
+              cout << "veikia" <<endl;
+              cout <<temp.paz[i]<< endl;
+            }
+             break;
+        }
         else if (!Ar_tai_yra_skaicius(n)){
           cout << "Jus ivedete ne skaiciu, bandykite vel :)"<<endl;
         }
@@ -60,7 +71,7 @@ void ivestis(data& temp){
               temp.paz[temp.paz_sk] = x;
               temp.paz_sk++;
           }
-        }
+        } 
     }
     n.assign("T");
     cout << "iveskite egzamino pazymi: ";
