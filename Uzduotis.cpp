@@ -9,7 +9,8 @@ using std::cout; using std::cin; using std::string; using std::endl; using std::
 using std:: vector; using std::setw;
 struct data{
     string vardas, pavarde;
-    int paz[51] = {0}, egz = 0, paz_sk = 0;
+    int egz = 0, paz_sk = 0;
+    vector <int> paz;
     double vid, med = 0;
     data *next;
 };
@@ -18,7 +19,7 @@ void ivestis(vector<data>& temp);
 void isvestis(vector<data> t);
 string PavertimasDidziosiomisR(string s);
 bool Ar_tai_yra_skaicius(string str);
-double Mediana(int a[], int k);
+double Mediana(vector <int> a);
 
 int main(){
     vector<data> mokinys;
@@ -34,7 +35,7 @@ int main(){
         }
         else cout << "ivedete neteisinga reiksme" << endl;
     }
-    isvestis(mokinys);
+    if (!mokinys.empty()) isvestis(mokinys);
 
     mokinys.clear();
     return 0;
@@ -45,7 +46,7 @@ void ivestis(vector<data>& temp){
     string n("T");
     bool ArIvede = false;
     cout << endl << "Veskite mokinio pazymius"<< endl <<
-     "Pazymiai gali buti tik tarp 1-10 ir daugiausia galima ivesti 50 pazymiu"<<endl<<
+     "Pazymiai gali buti tik tarp 1-10"<<endl<<
      "Noredami uzbaigti pazymiu vedima irasykite: B"<<endl<<
     "** Jeigu norite, kad mokinio pazymius sugeneruotu atsitiktinius rasykite: A" <<endl;
     while(n!="B"){
@@ -55,14 +56,14 @@ void ivestis(vector<data>& temp){
         else if (n == "A" and ArIvede == false){
             cout << "Kiek pazymiu norite sugeneruoti?" << endl;
             string sk ("-1");
-            while (stoi(sk)<0 or stoi(sk)>50 or !Ar_tai_yra_skaicius(sk)){
+            while (stoi(sk)<0 or !Ar_tai_yra_skaicius(sk)){
                 cin >> sk;
-                if (!Ar_tai_yra_skaicius(sk) or stoi(sk)<0 or stoi(sk)>50)
+                if (!Ar_tai_yra_skaicius(sk) or stoi(sk)<0)
                      cout << "Jus ivedete ne skaiciu arba negalima sugeneruoti tokio pasirenkto skaicio skaiciu, bandykite vel :)"<<endl;
                 else {
                   temp.back().paz_sk = stoi(sk);
                   for (int i = 0; i <temp.back().paz_sk; i++){
-                  temp.back().paz[i] = rand() % 10 + 1;
+                  temp.back().paz.push_back(rand() % 10 + 1);
                   }
                   temp.back().egz = rand() % 10 + 1;
                   break;
@@ -77,9 +78,8 @@ void ivestis(vector<data>& temp){
             int x = stoi(n);
             if (x > 10 or x<1) cout << "ivestas skaicius neatitinka kriterijaus"<<endl;
             else {
-                temp.back().paz[temp.back().paz_sk] = x;
+                temp.back().paz.push_back(x);
                 temp.back().paz_sk++;
-                if (temp.back().paz_sk == 50) break;
                 ArIvede = true;
             }
         } 
@@ -109,9 +109,9 @@ void ivestis(vector<data>& temp){
         int suma = 0; 
         for (int i=0; i<temp.back().paz_sk; i++) suma = suma + temp.back().paz[i];
         temp.back().vid = (suma/temp.back().paz_sk)*0.4+0.6*temp.back().egz;
-        temp.back().med = Mediana(temp.back().paz, temp.back().paz_sk);   cout << temp.back().med <<" :: "<<temp.back().med<<endl;
+        temp.back().med = Mediana(temp.back().paz);
     }
-    else temp[temp.size()-1].vid = 0.6*temp[temp.size()-1].egz;
+    else temp.back().vid = 0.6*temp.back().egz;
 }
 void isvestis(vector<data> t){
     string n("T");
@@ -126,27 +126,27 @@ void isvestis(vector<data> t){
         if (n == "V") {
             cout <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " <<endl;
             cout << "---------------------------------------------------------" <<endl;
-            for (int i=0; i<t.size(); i++) {
-            cout <<  left << setw(20) << t[i].vardas << setw(20) << t[i].pavarde;
-            cout << setw(20) << fixed << setprecision(2) << t[i].vid << endl;
+            for (const auto& elem : t) {
+            cout <<  left << setw(20) << elem.vardas << setw(20) << elem.pavarde;
+            cout << setw(20) << fixed << setprecision(2) << elem.vid << endl;
             }
             break;
         }
         else if (n == "M") {
             cout << left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Med.) " <<endl;
             cout << "---------------------------------------------------------" <<endl;
-            for (int i=0; i<t.size(); i++) {
-            cout <<  left << setw(20) << t[i].vardas << setw(20) << t[i].pavarde;
-            cout << setw(20) << fixed << setprecision(2) << t[i].med << endl;
+            for (const auto& elem : t) {
+            cout <<  left << setw(20) << elem.vardas << setw(20) << elem.pavarde;
+            cout << setw(20) << fixed << setprecision(2) << elem.med << endl;
             }
             break;
         }
         else if (n == "A") {
             cout <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " << setw(20) << "Galutinis (Med.) " <<endl;
             cout << "-----------------------------------------------------------------------------" <<endl;
-            for (int i=0; i<t.size(); i++) {
-            cout << left << setw(20) << t[i].vardas << setw(20) << t[i].pavarde;
-            cout << setw(20) << fixed << setprecision(2) << t[i].vid << setw(20) << fixed << setprecision(2) << t[i].med << endl;
+            for (const auto& elem : t){
+            cout << left << setw(20) << elem.vardas << setw(20) << elem.pavarde;
+            cout << setw(20) << fixed << setprecision(2) << elem.vid << setw(20) << fixed << setprecision(2) << elem.med << endl;
             }
             break;
         }
@@ -166,12 +166,12 @@ bool Ar_tai_yra_skaicius(string str) {
       return false;
       return true;
 }
-double Mediana(int a[], int k){
-    sort(a, a + k);
-    if (k % 2 == 0){
-        return (1.0*a[k/2] + 1.0*a[(k/2) - 1])/2;
+double Mediana(vector <int> a){
+    sort(a.begin(), a.end());
+    if (a.size() % 2 == 0){
+        return (1.0*a[a.size()/2] + 1.0*a[(a.size()/2) - 1])/2;
       }
     else {
-        return a[k/2];
+        return a[a.size()/2];
     }
 }
