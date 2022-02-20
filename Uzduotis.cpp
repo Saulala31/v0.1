@@ -4,8 +4,9 @@
 #include <cstring>
 #include <algorithm>
 #include <cassert>
+#include <vector>
 using std::cout; using std::cin; using std::string; using std::endl; using std::left; using std::fixed; using std::setprecision; using std::sort;
-
+using std:: vector; using std::setw;
 struct data{
     string vardas, pavarde;
     int paz[51] = {0}, egz = 0, paz_sk = 0;
@@ -13,34 +14,34 @@ struct data{
     data *next;
 };
 
-void ivestis(data& temp);
-void isvestis(data*);
-void add_mok(data *&root);
+void ivestis(vector<data>& temp);
+void isvestis(vector<data> t);
 string PavertimasDidziosiomisR(string s);
 bool Ar_tai_yra_skaicius(string str);
 double Mediana(int a[], int k);
 
 int main(){
-    data *root = NULL;
-    int k=0;
+    vector<data> mokinys;
     string sk("T");
     while (sk !="N"){
         cout << "Jei norite prideti mokini rasykite: T, jei ne rasykite: N"<<endl;
         cin >> sk;
         sk = PavertimasDidziosiomisR(sk);
         if (sk=="N") break;
-        else if (sk=="T") add_mok(*&root);
+        else if (sk=="T") {
+            mokinys.push_back(data());
+            ivestis(mokinys);
+        }
         else cout << "ivedete neteisinga reiksme" << endl;
     }
-    if (root != NULL)
-        isvestis(root);
+    isvestis(mokinys);
 
-    delete[] root;
+    mokinys.clear();
     return 0;
 }
-void ivestis(data& temp){
-    cout << "Iveskite varda: "; cin >> temp.vardas;
-    cout << "Iveskite pavarde: "; cin >> temp.pavarde;
+void ivestis(vector<data>& temp){
+    cout << "Iveskite varda: "; cin >> temp.back().vardas;
+    cout << "Iveskite pavarde: "; cin >> temp.back().pavarde;
     string n("T");
     bool ArIvede = false;
     cout << endl << "Veskite mokinio pazymius"<< endl <<
@@ -59,11 +60,11 @@ void ivestis(data& temp){
                 if (!Ar_tai_yra_skaicius(sk) or stoi(sk)<0 or stoi(sk)>50)
                      cout << "Jus ivedete ne skaiciu arba negalima sugeneruoti tokio pasirenkto skaicio skaiciu, bandykite vel :)"<<endl;
                 else {
-                  temp.paz_sk = stoi(sk);
-                  for (int i = 0; i <temp.paz_sk; i++){
-                  temp.paz[i] = rand() % 10 + 1;
+                  temp.back().paz_sk = stoi(sk);
+                  for (int i = 0; i <temp.back().paz_sk; i++){
+                  temp.back().paz[i] = rand() % 10 + 1;
                   }
-                  temp.egz = rand() % 10 + 1;
+                  temp.back().egz = rand() % 10 + 1;
                   break;
                 }
             }
@@ -76,9 +77,9 @@ void ivestis(data& temp){
             int x = stoi(n);
             if (x > 10 or x<1) cout << "ivestas skaicius neatitinka kriterijaus"<<endl;
             else {
-                temp.paz[temp.paz_sk] = x;
-                temp.paz_sk++;
-                if (temp.paz_sk == 50) break;
+                temp.back().paz[temp.back().paz_sk] = x;
+                temp.back().paz_sk++;
+                if (temp.back().paz_sk == 50) break;
                 ArIvede = true;
             }
         } 
@@ -98,22 +99,21 @@ void ivestis(data& temp){
                 n.assign("T");
             }
                 else {
-                    temp.egz = x;
+                    temp.back().egz = x;
                     break;
                 }
             }
         }
     }
-    if (temp.paz_sk != 0){
+    if (temp.back().paz_sk != 0){
         int suma = 0; 
-        for (int i=0; i<temp.paz_sk; i++) suma = suma + temp.paz[i];
-        temp.vid = (suma/temp.paz_sk)*0.4+0.6*temp.egz;
-        temp.med = Mediana(temp.paz, temp.paz_sk);
+        for (int i=0; i<temp.back().paz_sk; i++) suma = suma + temp.back().paz[i];
+        temp.back().vid = (suma/temp.back().paz_sk)*0.4+0.6*temp.back().egz;
+        temp.back().med = Mediana(temp.back().paz, temp.back().paz_sk);   cout << temp.back().med <<" :: "<<temp.back().med<<endl;
     }
-    else temp.vid = 0.6*temp.egz;
+    else temp[temp.size()-1].vid = 0.6*temp[temp.size()-1].egz;
 }
-void isvestis(data *root){
-    data *t = root;
+void isvestis(vector<data> t){
     string n("T");
     cout << "DUOMENU ISVEDIMAS"<<endl;
     cout << "Ka norite isvesti i ekrana kartu su mokinio vardu ir pavarde? :"<<endl;
@@ -124,32 +124,29 @@ void isvestis(data *root){
         cin >> n; cout << n <<endl;
         n = PavertimasDidziosiomisR(n); cout << n <<endl;
         if (n == "V") {
-            cout <<  left << std::setw(20) << "Vardas" << std::setw(20) << "Pavarde "<< std::setw(20) << "Galutinis (Vid.) " <<endl;
+            cout <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " <<endl;
             cout << "---------------------------------------------------------" <<endl;
-            while (t) {
-            cout <<  left << std::setw(20) << t->vardas << std::setw(20) << t->pavarde;
-            cout << std::setw(20) << fixed << setprecision(2) << t->vid << std::endl;
-            t = t->next;
+            for (int i=0; i<t.size(); i++) {
+            cout <<  left << setw(20) << t[i].vardas << setw(20) << t[i].pavarde;
+            cout << setw(20) << fixed << setprecision(2) << t[i].vid << endl;
             }
             break;
         }
         else if (n == "M") {
-            cout << left << std::setw(20) << "Vardas" << std::setw(20) << "Pavarde "<< std::setw(20) << "Galutinis (Med.) " <<endl;
+            cout << left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Med.) " <<endl;
             cout << "---------------------------------------------------------" <<endl;
-            while (t) {
-            cout <<  left << std::setw(20) << t->vardas << std::setw(20) << t->pavarde;
-            cout << std::setw(20) << fixed << setprecision(2) << t->med << std::endl;
-            t = t->next;
+            for (int i=0; i<t.size(); i++) {
+            cout <<  left << setw(20) << t[i].vardas << setw(20) << t[i].pavarde;
+            cout << setw(20) << fixed << setprecision(2) << t[i].med << endl;
             }
             break;
         }
         else if (n == "A") {
-            cout <<  left << std::setw(20) << "Vardas" << std::setw(20) << "Pavarde "<< std::setw(20) << "Galutinis (Vid.) " << std::setw(20) << "Galutinis (Med.) " <<endl;
+            cout <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " << setw(20) << "Galutinis (Med.) " <<endl;
             cout << "-----------------------------------------------------------------------------" <<endl;
-            while (t) {
-            cout <<  left << std::setw(20) << t->vardas << std::setw(20) << t->pavarde;
-            cout << std::setw(20) << fixed << setprecision(2) << t->vid << std::setw(20) << fixed << setprecision(2) << t->med << std::endl;
-            t = t->next;
+            for (int i=0; i<t.size(); i++) {
+            cout << left << setw(20) << t[i].vardas << setw(20) << t[i].pavarde;
+            cout << setw(20) << fixed << setprecision(2) << t[i].vid << setw(20) << fixed << setprecision(2) << t[i].med << endl;
             }
             break;
         }
@@ -157,21 +154,6 @@ void isvestis(data *root){
             cout << "Jus ivedete neteisinga simboli, bandykite vel :)"<<endl;
         }
     }
-}
-void add_mok(data *&root){
-  if (root) {
-      data *t = root;
-      while (t->next) t = t->next;
-      t->next = new data;
-      t = t->next;
-      ivestis(*t);
-      t->next = NULL;
-  }
-  else {
-      root = new data;
-      ivestis(*root);
-      root->next = NULL;
-  }
 }
 string PavertimasDidziosiomisR(string s){
     transform(s.begin(), s.end(), s.begin(),
