@@ -1,7 +1,7 @@
 # Užduotis_vidurkių_apskaičiaviumui
 ## Objektinio programavimo pirmoji užduotis
 
-Programa nuskaito vartotojų įvedamus reikiamus duomenis (struktūros elementai):
+Programa nuskaito vartotojų įvedamus reikiamus duomenis arba nuskaito duomenis iš failo (struktūros elementai):
 
 *Studento vardą ir pavardę;*
 *Namų darbų ir egzamino rezultatą;*
