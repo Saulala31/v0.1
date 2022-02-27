@@ -8,8 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <iostream>
+#include <fstream>
 using std::cout; using std::cin; using std::string; using std::endl; using std::left; using std::fixed; using std::setprecision; using std::sort;
-using std:: vector; using std::setw;
+using std:: vector; using std::setw; using std::ifstream;
 struct data{
     string vardas, pavarde;
     int egz = 0, paz_sk = 0;
@@ -22,18 +24,25 @@ void isvestis(vector<data> t);
 string PavertimasDidziosiomisR(string s);
 bool Ar_tai_yra_skaicius(string str);
 double Mediana(vector <int> a);
+void nuskaitymas(vector <data> &temp);
+bool palyginimas(const data& a, const data& b);
 
 int main(){
     vector<data> mokinys;
     string sk("T");
     while (sk !="N"){
         cout << "Jei norite prideti mokini rasykite: T, jei ne rasykite: N"<<endl;
+        cout << "Jei norite, kad duomenys butu nuskaityti is failo rasykite: A" <<endl;
         cin >> sk;
         sk = PavertimasDidziosiomisR(sk);
-        if (sk=="N") break;
-        else if (sk=="T") {
+        if (sk == "N") break;
+        else if (sk == "T") {
             mokinys.push_back(data());
             ivestis(mokinys);
+        }
+        else if (sk == "A"){
+            nuskaitymas(mokinys);
+            break;
         }
         else cout << "ivedete neteisinga reiksme" << endl;
     }
@@ -184,4 +193,43 @@ double Mediana(vector <int> a){
     else {
         return a[a.size()/2];
     }
+}
+void nuskaitymas(vector <data> &temp){
+  ifstream df ("kursiokai.txt");
+  string zodis;
+  int nd_sk = 0, pazimys;
+  while (zodis != "Egz."){
+       df >> zodis;
+       if (zodis == "Egz.") break;
+       else if (zodis.substr(0, 2) == "ND"){
+            nd_sk++;
+       }
+  }
+  while(!df.eof()){
+    temp.push_back(data());
+    df >> temp.back().vardas >> temp.back().pavarde; cout << "vard?pav : "<< temp.back().vardas << "    " << temp.back().pavarde << endl;
+    for (int i=0; i<nd_sk; i++){
+        df >> pazimys;
+        temp.back().paz.push_back(pazimys);  cout << "  "<< temp.back().paz.back() <<"  ";
+    }
+    df >> temp.back().egz; cout << "  egz:   " << temp.back().egz;
+
+    if (nd_sk != 0){
+        int suma = 0; 
+        for (int i=0; i<nd_sk; i++) suma = suma + temp.back().paz[i];
+        temp.back().vid = (suma/nd_sk)*0.4+0.6*temp.back().egz;
+        temp.back().med = Mediana(temp.back().paz);
+    }
+    else temp.back().vid = 0.6*temp.back().egz;
+
+    cout << endl;
+    }
+
+    sort(temp.begin(), temp.end(), palyginimas);
+
+  df.close();
+}
+bool palyginimas(const data& a, const data& b)
+{
+    return a.vardas < b.vardas;
 }
