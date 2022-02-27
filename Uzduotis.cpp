@@ -5,6 +5,9 @@
 #include <algorithm>
 #include <cassert>
 #include <vector>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 using std::cout; using std::cin; using std::string; using std::endl; using std::left; using std::fixed; using std::setprecision; using std::sort;
 using std:: vector; using std::setw;
 struct data{
@@ -12,7 +15,6 @@ struct data{
     int egz = 0, paz_sk = 0;
     vector <int> paz;
     double vid, med = 0;
-    data *next;
 };
 
 void ivestis(vector<data>& temp);
@@ -62,10 +64,18 @@ void ivestis(vector<data>& temp){
                      cout << "Jus ivedete ne skaiciu arba negalima sugeneruoti tokio pasirenkto skaicio skaiciu, bandykite vel :)"<<endl;
                 else {
                   temp.back().paz_sk = stoi(sk);
+                  srand(time(NULL));
+                  int rand_sk;
                   for (int i = 0; i <temp.back().paz_sk; i++){
-                  temp.back().paz.push_back(rand() % 10 + 1);
+                        do {
+                        rand_sk = rand();
+                        } while ( rand_sk > (RAND_MAX - (RAND_MAX % 100)) );
+                  temp.back().paz.push_back(rand_sk % 10 + 1); cout << " PAZ: " << temp.back().paz.back() << endl;
                   }
-                  temp.back().egz = rand() % 10 + 1;
+                        do {
+                        rand_sk = rand();
+                        } while ( rand_sk > (RAND_MAX - (RAND_MAX % 100)) );
+                  temp.back().egz = rand_sk % 10 + 1; cout << "EGZ:  " << temp.back().egz << endl;
                   break;
                 }
             }
