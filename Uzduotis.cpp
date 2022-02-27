@@ -207,12 +207,12 @@ void nuskaitymas(vector <data> &temp){
   }
   while(!df.eof()){
     temp.push_back(data());
-    df >> temp.back().vardas >> temp.back().pavarde; //cout << "vard:pav : "<< temp.back().vardas << "    " << temp.back().pavarde << "  ";
+    df >> temp.back().vardas >> temp.back().pavarde;
     for (int i=0; i<nd_sk; i++){
         df >> pazimys;
-        temp.back().paz.push_back(pazimys);  //cout << "  "<< temp.back().paz.back() <<"  ";
+        temp.back().paz.push_back(pazimys);
     }
-    df >> temp.back().egz; //cout << "  egz:   " << temp.back().egz;
+    df >> temp.back().egz;
 
     if (nd_sk != 0){
         int suma = 0; 
