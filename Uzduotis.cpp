@@ -10,13 +10,21 @@
 #include <time.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <iterator>
 using std::cout; using std::cin; using std::string; using std::endl; using std::left; using std::fixed; using std::setprecision; using std::sort;
 using std:: vector; using std::setw; using std::ifstream;
+using std::cout; using std::cin;
+using std::endl; using std::string;
+using std::vector; using std::istringstream;
+using std::stringstream;
+
 struct data{
     string vardas, pavarde;
-    int egz = 0, paz_sk = 0;
+    int egz = 0, paz_sk = 0 , paz_suma = 0;
     vector <int> paz;
     double vid, med = 0;
+    vector <string> zod;
 };
 
 void ivestis(vector<data>& temp);
@@ -26,6 +34,7 @@ bool Ar_tai_yra_skaicius(string str);
 double Mediana(vector <int> a);
 void nuskaitymas(vector <data> &temp);
 bool palyginimas(const data& a, const data& b);
+void paskirstymas (vector <data> &temp);
 
 int main(){
     vector<data> mokinys;
@@ -196,7 +205,7 @@ double Mediana(vector <int> a){
 }
 void nuskaitymas(vector <data> &temp){
   ifstream df ("kursiokai.txt");
-  string zodis;
+  string zodis, eilute;
   int nd_sk = 0, pazimys;
   while (zodis != "Egz."){
        df >> zodis;
@@ -205,23 +214,45 @@ void nuskaitymas(vector <data> &temp){
             nd_sk++;
        }
   }
-  while(!df.eof()){
-    temp.push_back(data());
-    df >> temp.back().vardas >> temp.back().pavarde;
-    for (int i=0; i<nd_sk; i++){
-        df >> pazimys;
-        temp.back().paz.push_back(pazimys);
-    }
-    df >> temp.back().egz;
 
-    if (nd_sk != 0){
-        int suma = 0; 
-        for (int i=0; i<nd_sk; i++) suma = suma + temp.back().paz[i];
-        temp.back().vid = (suma/nd_sk)*0.4+0.6*temp.back().egz;
-        temp.back().med = Mediana(temp.back().paz);
+    std::stringstream   lineStream;
+    string line;
+    string cell;
+    const int c3 = nd_sk +2;
+    while(std::getline(df, line))
+{
+    
+    lineStream.clear();
+    lineStream.str(line);
+
+    int suma = 0;
+    while(std::getline(lineStream, cell, ' ' ))
+                {
+                    temp.back().vardas = cell;
+                    int pazimys;
+                    lineStream >> temp.back().pavarde;
+                    for (int i=0; i<nd_sk; i++){
+                        lineStream >> pazimys;
+                        temp.back().paz_suma +=pazimys;
+                        temp.back().paz.push_back(pazimys);
+                    }
+                    lineStream >> pazimys;
+                    temp.back().egz = pazimys;
+                }
+
+    if (!df.eof( ))  temp.push_back(data());
+}
+cout << "spauzdinimas vyksta"<<endl;
+for (int i= 0; i<=temp.size(); i++){
+    //cout << left << setw(20) << temp[i].vardas << setw(20) << temp[i].pavarde;
+    if (temp[i].paz_suma != 0){
+        temp[i].vid = (temp[i].paz_suma/nd_sk)*0.4+0.6*temp[i].egz;
+        //cout << " vid =  " << temp[i].vid <<endl;
+        temp[i].med = Mediana(temp[i].paz);
     }
-    else temp.back().vid = 0.6*temp.back().egz;
-    }
+    else temp[i].vid = 0.6*temp[i].egz;
+    //cout << endl;
+}
 
     sort(temp.begin(), temp.end(), palyginimas);
 
