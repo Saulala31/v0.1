@@ -12,4 +12,6 @@ Programoje galima pasirinkti pačiam įvesti mokinio gautus balus už namų da
 
 Baigus duomenų įvedimą, galima pasirinkta ką isvesti su mokinio vardu ir pavarde. Ar galutinį balą, medianą ar juos abu kartu.
 
+Galimas pasirinkimas išvesti į ekraną arba saugoti duomenis faile.
+
 Sukurtos papildomos funkcijos, kurios paverčia mažasias raides didžiosiomis ir pasakančios ar įvestas simbolis yra skaičius, taip pagerinančios programos veikimą.
