@@ -17,7 +17,7 @@ using std:: vector; using std::setw; using std::ifstream;
 using std::cout; using std::cin;
 using std::endl; using std::string;
 using std::vector; using std::istringstream;
-using std::stringstream;
+using std::stringstream; using std::ofstream;
 
 struct data{
     string vardas, pavarde;
@@ -35,6 +35,7 @@ double Mediana(vector <int> a);
 void nuskaitymas(vector <data> &temp);
 bool palyginimas(const data& a, const data& b);
 void paskirstymas (vector <data> &temp);
+string zodziu_sujungimas(string v, string v2);
 
 int main(){
     vector<data> mokinys;
@@ -142,21 +143,74 @@ void ivestis(vector<data>& temp){
     else temp.back().vid = 0.6*temp.back().egz;
 }
 void isvestis(vector<data> t){
-    string n("T");
+    string n("T"), f("T") , sakinys;
+    bool failas = false;
     cout << "DUOMENU ISVEDIMAS"<<endl;
     cout << "Ka norite isvesti i ekrana kartu su mokinio vardu ir pavarde? :"<<endl;
     cout << "Iveskite V, jei norite matyti vidurki" <<endl;
     cout << "Iveskite M, jei norite matyti mediana" <<endl;
     cout << "Iveskite A, jei norite matyti vidurki ir mediana" <<endl;
+
     while(n != "V" or n!="M" or n != "A"){
-        cin >> n; cout << n <<endl;
-        n = PavertimasDidziosiomisR(n); cout << n <<endl;
+        cin >> n;
+        n = PavertimasDidziosiomisR(n);
+
+        cout << "Ar norite duomenis isvesti i faila? Y/N"<<endl;
+        while (n != "Y" or n!="N"){
+            cin >> f;
+            f = PavertimasDidziosiomisR(f);
+            if (f == "Y"){
+                failas = true;
+                break;
+            }
+            else if (f == "N"){
+                failas = false;
+                break;
+            }
+            else {
+                cout << "Jus ivedete neteisinga simboli, bandykite vel :)"<<endl;
+            }
+        }
+        if (failas){
+            ofstream RF;
+            RF.open ("Rezultatai.txt");
+            if (n == "V") {
+            RF <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " <<endl;
+            RF << "---------------------------------------------------------" <<endl;
+            for (const auto& elem : t) {
+                sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
+                RF << sakinys << setw(20) << fixed << setprecision(2) << elem.vid << endl;
+            }
+            break;
+        }
+        else if (n == "M") {
+            RF << left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Med.) " <<endl;
+            RF << "---------------------------------------------------------" <<endl;
+            for (const auto& elem : t) {
+                sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
+                RF << sakinys << setw(20) << fixed << setprecision(2) << elem.med << endl;
+            }
+            break;
+        }
+        else if (n == "A") {
+            RF <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " << setw(20) << "Galutinis (Med.) " <<endl;
+            RF << "-----------------------------------------------------------------------------" <<endl;
+            for (const auto& elem : t){
+                sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
+            RF << sakinys << setw(20) << fixed << setprecision(2) << elem.vid << setw(20) << elem.med << endl;
+            }
+            break;
+        }
+            RF.close();
+
+        }
+        else{
         if (n == "V") {
             cout <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " <<endl;
             cout << "---------------------------------------------------------" <<endl;
             for (const auto& elem : t) {
-            cout <<  left << setw(20) << elem.vardas << setw(20) << elem.pavarde;
-            cout << setw(20) << fixed << setprecision(2) << elem.vid << endl;
+                sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
+                cout << sakinys << setw(20) << fixed << setprecision(2) << elem.vid << endl;
             }
             break;
         }
@@ -164,8 +218,8 @@ void isvestis(vector<data> t){
             cout << left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Med.) " <<endl;
             cout << "---------------------------------------------------------" <<endl;
             for (const auto& elem : t) {
-            cout <<  left << setw(20) << elem.vardas << setw(20) << elem.pavarde;
-            cout << setw(20) << fixed << setprecision(2) << elem.med << endl;
+                sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
+                cout << sakinys << setw(20) << fixed << setprecision(2) << elem.med << endl;
             }
             break;
         }
@@ -173,13 +227,14 @@ void isvestis(vector<data> t){
             cout <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " << setw(20) << "Galutinis (Med.) " <<endl;
             cout << "-----------------------------------------------------------------------------" <<endl;
             for (const auto& elem : t){
-            cout << left << setw(20) << elem.vardas << setw(20) << elem.pavarde;
-            cout << setw(20) << fixed << setprecision(2) << elem.vid << setw(20) << fixed << setprecision(2) << elem.med << endl;
+                sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
+                cout << sakinys << setw(20) << fixed << setprecision(2) << elem.vid << setw(20) << fixed << setprecision(2) << elem.med << endl;
             }
             break;
         }
         else{
             cout << "Jus ivedete neteisinga simboli, bandykite vel :)"<<endl;
+        }
         }
     }
 }
@@ -205,7 +260,7 @@ double Mediana(vector <int> a){
 }
 void nuskaitymas(vector <data> &temp){
   ifstream df ("kursiokai.txt");
-  string zodis, eilute;
+  string zodis;
   int nd_sk = 0, pazimys;
   while (zodis != "Egz."){
        df >> zodis;
@@ -214,17 +269,14 @@ void nuskaitymas(vector <data> &temp){
             nd_sk++;
        }
   }
-
     std::stringstream   lineStream;
     string line;
     string cell;
     const int c3 = nd_sk +2;
     while(std::getline(df, line))
 {
-    
     lineStream.clear();
     lineStream.str(line);
-
     int suma = 0;
     while(std::getline(lineStream, cell, ' ' ))
                 {
@@ -239,26 +291,27 @@ void nuskaitymas(vector <data> &temp){
                     lineStream >> pazimys;
                     temp.back().egz = pazimys;
                 }
-
     if (!df.eof( ))  temp.push_back(data());
 }
-cout << "spauzdinimas vyksta"<<endl;
 for (int i= 0; i<=temp.size(); i++){
-    //cout << left << setw(20) << temp[i].vardas << setw(20) << temp[i].pavarde;
     if (temp[i].paz_suma != 0){
         temp[i].vid = (temp[i].paz_suma/nd_sk)*0.4+0.6*temp[i].egz;
-        //cout << " vid =  " << temp[i].vid <<endl;
         temp[i].med = Mediana(temp[i].paz);
     }
     else temp[i].vid = 0.6*temp[i].egz;
-    //cout << endl;
 }
-
     sort(temp.begin(), temp.end(), palyginimas);
-
   df.close();
 }
 bool palyginimas(const data& a, const data& b)
 {
     return a.vardas < b.vardas;
+}
+string zodziu_sujungimas(string v, string v2){
+    string z = "";
+            z += v;
+        for (int i=0; i<20-v.length(); i++) z += " ";
+            z += v2;
+        for (int i=0; i<20-v2.length(); i++) z += " ";
+    return z;
 }
