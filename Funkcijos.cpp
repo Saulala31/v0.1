@@ -81,10 +81,10 @@ void ivestis(vector<data>& temp){
     }
     else temp.back().vid = 0.6*temp.back().egz;
 }
-void nuskaitymas(vector <data> &temp){
-  ifstream df ("kursiokai.txt");
+void nuskaitymas(vector <data> &temp, ifstream& df){
   string zodis;
   int nd_sk = 0, pazimys;
+  
   while (zodis != "Egz."){
        df >> zodis;
        if (zodis == "Egz.") break;
@@ -124,7 +124,7 @@ for (int i= 0; i<=temp.size(); i++){
     else temp[i].vid = 0.6*temp[i].egz;
 }
     sort(temp.begin(), temp.end(), palyginimas);
-  df.close();
+  
 }
 bool palyginimas(const data& a, const data& b)
 {
