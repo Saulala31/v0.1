@@ -1,4 +1,4 @@
-#include "Funkcijos.cpp"
+#include "Funkcijos.h"
 
 int main(){
     vector<data> mokinys;
@@ -14,7 +14,22 @@ int main(){
             ivestis(mokinys);
         }
         else if (sk == "A"){
-            nuskaitymas(mokinys);
+            ifstream df ("kursiokai.txt");
+                try {
+                    if (df){
+
+                        }
+                    else {
+                        throw 505;
+                        }
+                    }
+                catch (...)
+                {
+                    cout << "Sukurkite studentu duomenu faila pavadinimu: kursiokai.txt";
+                    return 1;
+                }
+            nuskaitymas(mokinys, df);
+            df.close();
             break;
         }
         else cout << "ivedete neteisinga reiksme" << endl;
