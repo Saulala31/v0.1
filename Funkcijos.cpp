@@ -84,7 +84,7 @@ void ivestis(vector<data>& temp){
 void nuskaitymas(vector <data> &temp, ifstream& df){
   string zodis;
   int nd_sk = 0, pazimys;
-  
+  Timer t; // paleisti
   while (zodis != "Egz."){
        df >> zodis;
        if (zodis == "Egz.") break;
@@ -116,6 +116,7 @@ void nuskaitymas(vector <data> &temp, ifstream& df){
                 }
     if (!df.eof( ))  temp.push_back(data());
 }
+cout << temp.size()-1 << " Nuskaitymas uztruko: " << t.elapsed() << " s\n";
 for (int i= 0; i<=temp.size(); i++){
     if (temp[i].paz_suma != 0){
         temp[i].vid = (temp[i].paz_suma/nd_sk)*0.4+0.6*temp[i].egz;
@@ -123,8 +124,9 @@ for (int i= 0; i<=temp.size(); i++){
     }
     else temp[i].vid = 0.6*temp[i].egz;
 }
+    Timer sortin;
     sort(temp.begin(), temp.end(), palyginimas);
-  
+    cout << temp.size()-1 << " Studentu rykiavimas uztruko: " << sortin.elapsed() << " s\n";
 }
 bool palyginimas(const data& a, const data& b)
 {
@@ -285,9 +287,7 @@ void FailuGeneravimas(vector <data> &temp){
     gen.close();
     cout << moksk << " failo sukurimas uztruko: " << t.elapsed() << " s\n";
     ifstream tt ("Test.txt");
-    Timer nus;
     nuskaitymas(temp, tt);
-    cout << moksk << " Failo nuskaitymas ir rykiavimas uztruko: " << nus.elapsed() << " s\n";
     tt.close();
     skirstymas(temp, moksk);
     cout <<endl;
