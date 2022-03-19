@@ -1,5 +1,5 @@
 #include "Funkcijos.h"
-
+#include "Timer.h"
 void ivestis(vector<data>& temp){
     cout << "Iveskite varda: "; cin >> temp.back().vardas;
     cout << "Iveskite pavarde: "; cin >> temp.back().pavarde;
@@ -179,7 +179,7 @@ void isvestis(vector<data> t){
             RF.open ("Rezultatai.txt");
             if (n == "V") {
             RF <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " <<endl;
-            RF << "---------------------------------------------------------" <<endl;
+            RF << string (60, '-') <<endl;
             for (const auto& elem : t) {
                 sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
                 RF << sakinys << setw(20) << fixed << setprecision(2) << elem.vid << endl;
@@ -188,7 +188,7 @@ void isvestis(vector<data> t){
         }
         else if (n == "M") {
             RF << left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Med.) " <<endl;
-            RF << "---------------------------------------------------------" <<endl;
+            RF << string (60, '-') <<endl;
             for (const auto& elem : t) {
                 sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
                 RF << sakinys << setw(20) << fixed << setprecision(2) << elem.med << endl;
@@ -197,7 +197,7 @@ void isvestis(vector<data> t){
         }
         else if (n == "A") {
             RF <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " << setw(20) << "Galutinis (Med.) " <<endl;
-            RF << "-----------------------------------------------------------------------------" <<endl;
+            RF << string (80, '-') <<endl;
             for (const auto& elem : t){
                 sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
             RF << sakinys << setw(20) << fixed << setprecision(2) << elem.vid << setw(20) << elem.med << endl;
@@ -210,7 +210,7 @@ void isvestis(vector<data> t){
         else{
         if (n == "V") {
             cout <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " <<endl;
-            cout << "---------------------------------------------------------" <<endl;
+            cout << string (60, '-') <<endl;
             for (const auto& elem : t) {
                 sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
                 cout << sakinys << setw(20) << fixed << setprecision(2) << elem.vid << endl;
@@ -219,7 +219,7 @@ void isvestis(vector<data> t){
         }
         else if (n == "M") {
             cout << left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Med.) " <<endl;
-            cout << "---------------------------------------------------------" <<endl;
+            cout << string (60, '-') <<endl;
             for (const auto& elem : t) {
                 sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
                 cout << sakinys << setw(20) << fixed << setprecision(2) << elem.med << endl;
@@ -228,7 +228,8 @@ void isvestis(vector<data> t){
         }
         else if (n == "A") {
             cout <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " << setw(20) << "Galutinis (Med.) " <<endl;
-            cout << "-----------------------------------------------------------------------------" <<endl;
+            cout << string (80, '-') <<endl;
+            string skaicius;
             for (const auto& elem : t){
                 sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
                 cout << sakinys << setw(20) << fixed << setprecision(2) << elem.vid << setw(20) << fixed << setprecision(2) << elem.med << endl;
@@ -253,4 +254,67 @@ string PavertimasDidziosiomisR(string s){
     transform(s.begin(), s.end(), s.begin(),
                [](unsigned char c){ return toupper(c); });
     return s;
+}
+void FailuGeneravimas(vector <data> &temp){
+    Timer t; // paleisti
+    ofstream gen;
+    gen.open ("Test.txt");
+    int pazsk, moksk, skaicius; 
+    string sakinys, vard = "Vardas", pava = "Pavarde";
+    cout << "Po kiek pazymiu tures studentai?";
+    cin >> pazsk;
+    cout << "Kiek tokiu studentu bus? ";
+    cin >> moksk;
+    gen << zodziu_sujungimas(vard, pava);
+    for (int i=1; i<=pazsk; i++) gen << "ND" << i << " ";
+    gen << "Egz." <<endl;
+    srand(time(NULL));
+    int rand_sk;
+    for (int i=1; i<=moksk; i++){
+        sakinys = "";
+        sakinys = sakinys + zodziu_sujungimas(vard + to_string(i), pava + to_string(i));
+        for (int j=0; j<=pazsk; j++){
+            do {
+                rand_sk = rand();
+                } while ( rand_sk > (RAND_MAX - (RAND_MAX % 100)) );
+                        skaicius = rand_sk % 10 + 1;
+            sakinys = sakinys + to_string(skaicius) + "   ";
+        }
+        gen << sakinys << endl;
+    }
+    gen.close();
+    cout << moksk << " failo sukurimas uztruko: " << t.elapsed() << " s\n";
+    ifstream tt ("Test.txt");
+    Timer nus;
+    nuskaitymas(temp, tt);
+    cout << moksk << " Failo nuskaitymas ir rykiavimas uztruko: " << nus.elapsed() << " s\n";
+    tt.close();
+    skirstymas(temp, moksk);
+    cout <<endl;
+    cout << moksk << " Visos programos veikimo laikas: " << t.elapsed() << " s\n";
+}
+void skirstymas(vector <data> temp, int moksk){
+    Timer t; // paleisti
+    string sakinys, skaicius;
+    ofstream var;
+    var.open ("vargsiukai.txt");
+    ofstream gal;
+    gal.open ("galvociai.txt");
+    var << zodziu_sujungimas("Vardas", "Pavarde") <<"Galutinis (Vid.)" << endl << string (60, '-');
+    gal << zodziu_sujungimas("Vardas", "Pavarde") <<"Galutinis (Vid.)" << endl << string (60, '-');
+    for (int i=1; i<=moksk; i++){
+        sakinys = "";
+        skaicius = to_string(temp[i].vid);
+        skaicius = skaicius.substr(0, 4);
+        sakinys = zodziu_sujungimas(temp[i].vardas, temp[i].pavarde) + skaicius;
+        if (temp[i].vid < 5.0) {
+            var << endl << sakinys;
+        }
+        else {
+            gal << endl << sakinys;
+        }
+    }
+    var.close();
+    gal.close();
+    cout << moksk << " Studentu rusiavimas ir isvedimas uztruko: " << t.elapsed() << " s\n";
 }
