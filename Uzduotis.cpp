@@ -3,6 +3,7 @@
 int main(){
     vector<data> mokinys;
     string sk("T");
+    bool Generavimas = false;
     while (sk !="N"){
         cout << "Jei norite prideti mokini rasykite: T, jei ne rasykite: N"<<endl;
         cout << "Duomenys nuskaitymui is failo rasykite: A" <<endl;
@@ -34,12 +35,13 @@ int main(){
             break;
         }
         else if (sk == "G"){
-                FailuGeneravimas();
+            Generavimas = true;
+                FailuGeneravimas(mokinys);
                 break;
         }
         else cout << "ivedete neteisinga reiksme" << endl;
     }
-    if (!mokinys.empty()) isvestis(mokinys);
+    if (!mokinys.empty() and !Generavimas) isvestis(mokinys);
 
     mokinys.clear();
     return 0;
