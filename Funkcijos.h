@@ -15,6 +15,7 @@
 #include <fstream>
 #include <sstream>
 #include <iterator>
+#include <chrono>
 
 using std::cout; using std::cin; using std::string; using std::endl; using std::left; using std::fixed; using std::setprecision; using std::sort;
 using std:: vector; using std::setw; using std::ifstream;
@@ -40,5 +41,6 @@ struct data{
     double Mediana(vector <int> a);
     void isvestis(vector<data> t);
     string zodziu_sujungimas(string v, string v2);
-    void FailuGeneravimas();
+    void FailuGeneravimas(vector <data> &temp);
+    void skirstymas(vector <data> temp, int moksk);
     #endif
