@@ -41,6 +41,7 @@ struct data{
     double Mediana(vector <int> a);
     void isvestis(vector<data> t);
     string zodziu_sujungimas(string v, string v2);
-    void FailuGeneravimas(vector <data> &temp);
-    void skirstymas(vector <data> temp, int moksk);
+    void FailuGeneravimas( int kiek, int pazsk);
+    void skirstymas(vector <data> & var, vector <data> & gal, vector <data> temp, int moksk);
+    void FailuIsvedimas(vector <data> & var, vector <data> & gal);
     #endif
