@@ -96,34 +96,36 @@ void nuskaitymas(vector <data> &temp, ifstream& df){
     string line;
     string cell;
     const int c3 = nd_sk +2;
-    while(std::getline(df, line))
-{
+    while(std::getline(df, line)){
     lineStream.clear();
     lineStream.str(line);
     int suma = 0;
+    int pazimys;
     while(std::getline(lineStream, cell, ' ' ))
                 {
-                    temp.back().vardas = cell;
-                    int pazimys;
-                    lineStream >> temp.back().pavarde;
-                    for (int i=0; i<nd_sk; i++){
-                        lineStream >> pazimys;
-                        temp.back().paz_suma +=pazimys;
-                        temp.back().paz.push_back(pazimys);
+                    if(cell != ""){
+                            temp.back().vardas = cell;
+                            lineStream >> temp.back().pavarde;
+                            for (int i=0; i<nd_sk; i++){
+                                lineStream >> pazimys;
+                                temp.back().paz_suma +=pazimys;
+                                temp.back().paz.push_back(pazimys);
+                            }
+                            lineStream >> pazimys;
+                            temp.back().egz = pazimys;
                     }
-                    lineStream >> pazimys;
-                    temp.back().egz = pazimys;
                 }
     if (!df.eof( ))  temp.push_back(data());
-}
-cout << temp.size()-1 << " Nuskaitymas uztruko: " << t.elapsed() << " s\n";
-for (int i= 0; i<=temp.size(); i++){
-    if (temp[i].paz_suma != 0){
-        temp[i].vid = (temp[i].paz_suma/nd_sk)*0.4+0.6*temp[i].egz;
-        temp[i].med = Mediana(temp[i].paz);
     }
-    else temp[i].vid = 0.6*temp[i].egz;
-}
+    cout << temp.size()-1 << " Nuskaitymas uztruko: " << t.elapsed() << " s\n";
+    for (int i= 0; i<=temp.size(); i++){
+        if (temp[i].paz_suma != 0){
+            temp[i].vid = (temp[i].paz_suma/nd_sk)*0.4+0.6*temp[i].egz;
+            temp[i].med = Mediana(temp[i].paz);
+        }
+        else temp[i].vid = 0.6*temp[i].egz;
+    }
+
     Timer sortin;
     sort(temp.begin(), temp.end(), palyginimas);
     cout << temp.size()-1 << " Studentu rykiavimas uztruko: " << sortin.elapsed() << " s\n";
@@ -257,22 +259,18 @@ string PavertimasDidziosiomisR(string s){
                [](unsigned char c){ return toupper(c); });
     return s;
 }
-void FailuGeneravimas(vector <data> &temp){
+void FailuGeneravimas( int kiek, int pazsk){
     Timer t; // paleisti
     ofstream gen;
-    gen.open ("Test.txt");
-    int pazsk, moksk, skaicius; 
-    string sakinys, vard = "Vardas", pava = "Pavarde";
-    cout << "Po kiek pazymiu tures studentai?";
-    cin >> pazsk;
-    cout << "Kiek tokiu studentu bus? ";
-    cin >> moksk;
+    string failas = "Test"+to_string(kiek)+".txt";
+    gen.open (failas);
+    int skaicius, rand_sk; 
+    string vard = "Vardas", pava = "Pavarde", sakinys;
     gen << zodziu_sujungimas(vard, pava);
     for (int i=1; i<=pazsk; i++) gen << "ND" << i << " ";
     gen << "Egz." <<endl;
     srand(time(NULL));
-    int rand_sk;
-    for (int i=1; i<=moksk; i++){
+    for (int i=1; i<=kiek; i++){
         sakinys = "";
         sakinys = sakinys + zodziu_sujungimas(vard + to_string(i), pava + to_string(i));
         for (int j=0; j<=pazsk; j++){
@@ -285,36 +283,51 @@ void FailuGeneravimas(vector <data> &temp){
         gen << sakinys << endl;
     }
     gen.close();
-    cout << moksk << " failo sukurimas uztruko: " << t.elapsed() << " s\n";
-    ifstream tt ("Test.txt");
-    nuskaitymas(temp, tt);
-    tt.close();
-    skirstymas(temp, moksk);
-    cout <<endl;
-    cout << moksk << " Visos programos veikimo laikas: " << t.elapsed() << " s\n";
+    cout << kiek << " failo sukurimas uztruko: " << t.elapsed() << " s\n";
+
 }
-void skirstymas(vector <data> temp, int moksk){
-    Timer t; // paleisti
-    string sakinys, skaicius;
-    ofstream var;
-    var.open ("vargsiukai.txt");
-    ofstream gal;
-    gal.open ("galvociai.txt");
-    var << zodziu_sujungimas("Vardas", "Pavarde") <<"Galutinis (Vid.)" << endl << string (60, '-');
-    gal << zodziu_sujungimas("Vardas", "Pavarde") <<"Galutinis (Vid.)" << endl << string (60, '-');
+void skirstymas(vector <data> & var, vector <data> & gal, vector <data> temp, int moksk){
+    Timer hvar;
     for (int i=1; i<=moksk; i++){
-        sakinys = "";
-        skaicius = to_string(temp[i].vid);
-        skaicius = skaicius.substr(0, 4);
-        sakinys = zodziu_sujungimas(temp[i].vardas, temp[i].pavarde) + skaicius;
         if (temp[i].vid < 5.0) {
-            var << endl << sakinys;
-        }
-        else {
-            gal << endl << sakinys;
+           var.push_back(temp[i]);
         }
     }
-    var.close();
-    gal.close();
-    cout << moksk << " Studentu rusiavimas ir isvedimas uztruko: " << t.elapsed() << " s\n";
+    cout << moksk << " Vargsiuku studentu rusiavimas uztruko: " << hvar.elapsed() << " s\n";
+    Timer hgal;
+    for (int i=1; i<=moksk; i++){
+        if (temp[i].vid >= 5.0){
+            gal.push_back(temp[i]);
+        }
+    }
+    cout << moksk << " Galvociu studentu rusiavimas uztruko: " << hgal.elapsed() << " s\n";
+}
+void FailuIsvedimas(vector <data> & var, vector <data> & gal){
+    Timer t; // paleisti
+
+    ofstream varg;
+    varg.open ("Vargsiukai.txt");
+    varg <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " << endl;
+    varg << string (80, '-') <<endl;
+    string sakinys;
+    for (const auto& elem : var){
+            sakinys = "";
+            sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
+            varg << sakinys << setw(20) << fixed << setprecision(2) << elem.vid <<endl;
+        }
+
+    varg.close();
+    ofstream galv;
+    galv.open ("Galvociai.txt");
+    galv <<  left << setw(20) << "Vardas" << setw(20) << "Pavarde "<< setw(20) << "Galutinis (Vid.) " << endl;
+    galv << string (80, '-') <<endl;
+    for (const auto& elem : gal){
+            sakinys = "";
+            sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
+            galv << sakinys << setw(20) << fixed << setprecision(2) << elem.vid <<endl;
+        }
+
+    galv.close();
+
+    cout << gal.size()+var.size() << " Failu isvedimas uztruko: " << t.elapsed() << " s\n";
 }
