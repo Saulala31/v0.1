@@ -3,11 +3,9 @@
 
 
 int main(){
-    vector<data> mokinys;
-    vector<data> vargsiukai;
-    vector<data> galvociai;
+    vector<data> mokinys, vargsiukai, galvociai;
     string sk("T");
-    int kiekisStud, pazsk, NrStru = 0, Studentai = 100, nr = 0;
+    int kiekisStud, pazsk;
     bool Generavimas = false;
     while (sk !="N"){
         cout << "Jei norite prideti mokini rasykite: T, jei ne rasykite: N"<<endl;
@@ -55,6 +53,7 @@ int main(){
                     nuskaitymas (mokinys, tt);
                     tt.close();
                     skirstymas(vargsiukai, galvociai, mokinys, kiekisStud);
+                    mokinys.clear();
                     FailuIsvedimas(vargsiukai, galvociai);
                     cout << endl << kiekisStud << " Visos programos veikimas uztruko: " << t.elapsed() << " s\n";
                     break;
@@ -62,9 +61,8 @@ int main(){
                 else if(sk =="Y") {
                     cout << "Po kiek pazymiu tures studentai?";
                     cin >> pazsk;
-                    for (int i=100; i<=100000; i=i*10){
+                    for (int i=1000; i<=10000000; i=i*10){
                         FailuGeneravimas( i, pazsk);
-                        NrStru++;
                     }
 
                     Timer t; // paleisti
@@ -76,6 +74,7 @@ int main(){
                     nuskaitymas(mokinys, tt);
                     tt.close();
                     skirstymas(vargsiukai, galvociai, mokinys, kiekisStud);
+                    mokinys.clear();
                     FailuIsvedimas(vargsiukai, galvociai);
 
                     cout << endl << kiekisStud << " Visos programos veikimas uztruko: " << t.elapsed() << " s\n";
