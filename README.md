@@ -16,8 +16,8 @@ Galimas pasirinkimas išvesti į ekraną arba saugoti duomenis faile.
 
 Sukurtos papildomos funkcijos, kurios paverčia mažasias raides didžiosiomis ir pasakančios ar įvestas simbolis yra skaičius, taip pagerinančios programos veikimą.
 
-Galima pasirinkti sukurti failą su sugeneruotais šablonais (Vardas 1, Pavarde1).
+Galima pasirinkti sukurti failą su sugeneruotais šablonais (Vardas 1, Pavarde1...) arba su jau sugeneruotu failu atlikti veiksmus.
 
-Tas failas yra surykiuojamas pagal vardą ir padalijamas į du failus, pagal studento vidurkį.
+Tas failas yra surykiuojamas pagal vardą ir padalijamas į du vektorius, pagal studento vidurkį ir paskui atspauzdinami į atskirus failus.
 
 Visų operacijų su sugeneruotu failu yra skaičiuojamas laikas ir atspauzdinams į ekraną.  
