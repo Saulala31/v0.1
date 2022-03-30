@@ -315,7 +315,6 @@ void FailuIsvedimas(vector <data> & var, vector <data> & gal){
             sakinys = zodziu_sujungimas(elem.vardas, elem.pavarde);
             varg << sakinys << setw(20) << fixed << setprecision(2) << elem.vid <<endl;
         }
-
     varg.close();
     ofstream galv;
     galv.open ("Galvociai.txt");
@@ -328,6 +327,7 @@ void FailuIsvedimas(vector <data> & var, vector <data> & gal){
         }
 
     galv.close();
-
     cout << gal.size()+var.size() << " Failu isvedimas uztruko: " << t.elapsed() << " s\n";
+    gal.clear();
+    var.clear();
 }
