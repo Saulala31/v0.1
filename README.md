@@ -21,3 +21,10 @@ Galima pasirinkti sukurti failą su sugeneruotais šablonais (Vardas 1, Pavarde1
 Tas failas yra surykiuojamas pagal vardą ir padalijamas į du vektorius, pagal studento vidurkį ir paskui atspauzdinami į atskirus failus.
 
 Visų operacijų su sugeneruotu failu yra skaičiuojamas laikas ir atspauzdinams į ekraną.  
+
+
+## List
+
+| Dydis    | #1 | #2 |
+| :-----: | :---: | :---: |
+| Seconds | 301 | 283 |
