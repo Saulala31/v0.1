@@ -54,3 +54,10 @@ Visų operacijų su sugeneruotu failu yra skaičiuojamas laikas ir atspauzdinams
 | 100000  | 0.248125 s   | 0.179567 s  | 0.018009 s      | 0.022988 s       | 0.56943 s  | 1.17479 s    |
 | 1000000 | 2.44138 s    | 2.338 s     | 0.141542 s      | 0.234426 s       | 5.47496 s  | 11.7498 s    |
 | 10000000| 25.1603 s    | 28.2908 s   | 2.68412 s       | 3.15171 s        | 43.4153 s  | 114.673 s    |
+
+# Kompiuterio parametrai
+
+Processor	AMD Ryzen 5 3500U with Radeon Vega Mobile Gfx, 2100 Mhz, 4 Core(s), 8 Logical
+RAM	8.00 GB 
+SSD 512 GB
+
