@@ -61,3 +61,39 @@ Processor	AMD Ryzen 5 3500U with Radeon Vega Mobile Gfx, 2100 Mhz, 4 Core(s), 8 
 RAM	8.00 GB 
 SSD 512 GB
 
+## Studentų rūšiavimo (dalijimo) į dvi kategorijas palyginimas
+
+### List
+
+| Dydis   | 1 Strategija  | 2 Strategija  |       
+| :-----: | :-----------: | :-----------: |
+| 1000    | 0 s           | 0 s           |
+| 10000   | 0.010527 s    | 0.010527 s    |
+| 100000  | 0.068562 s    | 0.068562 s    |
+| 1000000 | 0.643927 s    | 0.643927 s    |
+| 10000000| 6.50695 s     | 6.50695 s     |
+
+
+
+### Deque
+
+| Dydis   | 1 Strategija  | 2 Strategija  | 
+| :-----: | :-----------: |
+| 1000    | 0.015004 s    |
+| 10000   | 1.20864 s     |
+| 100000  | 146.91 s      |
+| 1000000 | -             |
+| 10000000| -             |
+
+
+
+### Vector
+
+| Dydis   | 1 Strategija  | 2 Strategija  | 
+| :-----: | :-----------: |
+| 1000    | 0.041788 s    |
+| 10000   | 3.19529 s     |
+| 100000  | 297.544 s     |
+| 1000000 | -             |
+| 10000000| -             |
+
