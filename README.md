@@ -22,8 +22,9 @@ Tas failas yra surykiuojamas pagal vardą ir padalijamas į du vektorius, pagal 
 
 Visų operacijų su sugeneruotu failu yra skaičiuojamas laikas ir atspauzdinams į ekraną.  
 
+## Konteinerių palyginimas
 
-## List
+### List
 
 | Dydis   | Nuskaitymas  | Rykiavimas  | Var. į vectorių | Gal. į vectorių  | Išvedimas  | Visas Laikas |
 | :-----: | :----------: | :---------: | :-------------: | :--------------: | :--------: | :----------: |
@@ -34,7 +35,7 @@ Visų operacijų su sugeneruotu failu yra skaičiuojamas laikas ir atspauzdinams
 | 10000000| 94.784 s     | 261.812 s   | 15.4049 s       | 15.0431 s        | 46.6084 s  | 491.497 s    |
 
 
-## Deque
+### Deque
 
 | Dydis   | Nuskaitymas  | Rykiavimas  | Var. į vectorių | Gal. į vectorių  | Išvedimas  | Visas Laikas |
 | :-----: | :----------: | :---------: | :-------------: | :--------------: | :--------: | :----------: |
@@ -45,7 +46,7 @@ Visų operacijų su sugeneruotu failu yra skaičiuojamas laikas ir atspauzdinams
 | 10000000| 27.3146 s    | 75.651 s    | 54.0988 s       | 64.0965 s        | 50.4134 s  | 491.823 s    |
 
 
-## Vector
+### Vector
 
 | Dydis   | Nuskaitymas  | Rykiavimas  | Var. į vectorių | Gal. į vectorių  | Išvedimas  | Visas Laikas |
 | :-----: | :----------: | :---------: | :-------------: | :--------------: | :--------: | :----------: |
