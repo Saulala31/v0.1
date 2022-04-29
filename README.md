@@ -6,11 +6,11 @@ Programa nuskaito vartotojų įvedamus reikiamus duomenis arba nuskaito duomenis
 *Studento vardą ir pavardę;*
 *Namų darbų ir egzamino rezultatą;*
 
-Kiekvieno studento duomenys yra saugojami su vektoriumi.
+Kiekvieno studento duomenys yra saugojami su vector, deque, list ir class.
 
-Programoje galima pasirinkti pačiam įvesti mokinio gautus balus už namų darbus bei egzaminą arba juos sugeneruoti atsitiktinai.
+Programoje galima pasirinkti pačiam įvesti mokinio gautus balus už namų darbus bei egzaminą arba juos sugeneruoti atsitiktinai ar nuskaityti iš failo.
 
-Baigus duomenų įvedimą, galima pasirinkta ką isvesti su mokinio vardu ir pavarde. Ar galutinį balą, medianą ar juos abu kartu.
+Baigus duomenų įvedimą, galima pasirinkta ką išvesti su mokinio vardu ir pavarde. Ar galutinį balą, medianą ar juos abu kartu.
 
 Galimas pasirinkimas išvesti į ekraną arba saugoti duomenis faile.
 
