@@ -98,21 +98,16 @@ SSD 512 GB
 | 1000000 | 0.375968 s    | 1.072 s       |
 | 10000000| 5.83583  s    | 14.6001 s     |
 
+## Class ir Struct palyginimas
 
-
-
-
-
-
-## 100000 Vector
+### 100000 Vector
 
 | Dydis   | Nuskaitymas  | Rykiavimas  | Var. į vectorių | Gal. į vectorių  | Išvedimas  | Visas Laikas | Visas Laikas su -O1 | Visas Laikas su -O2 | Visas Laikas su -O3 |
 | :-----: | :----------: | :---------: | :-------------: | :--------------: | :--------: | :----------: | :-----------------: | :-----------------: | :-----------------: |
 | Struct  | 0.248125 s   | 0.179567 s  | 0.018009 s      | 0.022988 s       | 0.56943 s  | 1.17479 s    | 0.83338 s           | 0.774122 s          | 0.904723 s          |
 | Class   | 0.265108 s   | 0.231634 s  | 0.017001 s      | 0.023989 s       | 0.578866 s | 1.26268 s    | 0.93736 s           | 0.890504 s          | 1.0453 s            |
 
-
-## 1000000 Vector
+### 1000000 Vector
 
 | Dydis   | Nuskaitymas  | Rykiavimas  | Var. į vectorių | Gal. į vectorių  | Išvedimas  | Visas Laikas | Visas Laikas su -O1 | Visas Laikas su -O2 | Visas Laikas su -O3 |
 | :-----: | :----------: | :---------: | :-------------: | :--------------: | :--------: | :----------: | :-----------------: | :-----------------: | :-----------------: |
