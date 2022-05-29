@@ -119,11 +119,13 @@ SSD 512 GB
 
 ### funkcijos
 
-Markup : * Bullet list
-              * Nested bullet
-                  * Sub-nested bullet etc
-          * Bullet list item 2
-
+#### Capacity
+* Default-constructed capacity is 0
+* Capacity of a 100-element vector is 100
+* Capacity after resize(50) is 100
+* Capacity after shrink_to_fit() is 50
+* Capacity after adding 300 elements is 512
+* Capacity after shrink_to_fit() is 300
 
 ### Spartos analize
 
