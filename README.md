@@ -119,7 +119,7 @@ SSD 512 GB
 
 ### funkcijos
 
- Markup : * Bullet list
+Markup : * Bullet list
               * Nested bullet
                   * Sub-nested bullet etc
           * Bullet list item 2
