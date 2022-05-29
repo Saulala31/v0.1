@@ -117,6 +117,14 @@ SSD 512 GB
 
 ## MyVector
 
+### funkcijos
+
+ Markup : * Bullet list
+              * Nested bullet
+                  * Sub-nested bullet etc
+          * Bullet list item 2
+
+
 ### Spartos analize
 
 | Dydis   | std::vector   |   MyVector    | 
