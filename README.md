@@ -119,6 +119,12 @@ SSD 512 GB
 
 ### funkcijos
 
+#### empty
+* Vector that has 64-elements is not empty
+* Vector after clear() is empty
+* Vector after push_back() 50 elements is not empty
+* Vector after ~Vector() is empty
+
 #### Insert
 * Element can be inserted only if index < 0 || size() < index
 * Size of a 64-element vector is 64
