@@ -125,6 +125,12 @@ SSD 512 GB
 * Vector after push_back() 50 elements is not empty
 * Vector after ~Vector() is empty
 
+#### erase
+* Element can only be erased if (index < 0) || (index >= size())
+* Vector that has 65-elements after erase() 1 element size() is 64
+* Vector that has 65-elements capasity() is 128
+* Vector after erase() 1 element capasity() is 128
+
 #### Insert
 * Element can be inserted only if index < 0 || size() < index
 * Size of a 64-element vector is 64
