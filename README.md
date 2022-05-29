@@ -115,7 +115,7 @@ SSD 512 GB
 | Class   | 2.66262 s    | 3.05908 s   | 0.144465 s      | 0.267374 s       | 5.80229 s  | 13.0283 s    | 10.9506 s           | 10.662 s            | 10.3665 s           |
 
 
-##MyVector
+## MyVector
 
 ### Spartos analize
 
@@ -127,8 +127,16 @@ SSD 512 GB
 | 10000000| 0.221757 s    | 0.342043 s    |
 |100000000| 1.43557 s     | 2.52124 s     |
 
-###capacity() == size()
+### capacity() == size()
 
 | Dydis   | std::vector   |   MyVector    |
 | :-----: | :-----------: | :-----------: |
 |100000000|      27       |       27      |
+
+### v2.0 programos veikimo lyginimas
+
+|   100000  | Nuskaitymas  | Rykiavimas  | Var. į vectorių | Gal. į vectorių  | Išvedimas  | Visas Laikas |
+| :-------: | :----------: | :---------: | :-------------: | :--------------: | :--------: | :----------: |
+|std::vector| 0.248125 s   | 0.179567 s  | 0.018009 s      | 0.022988 s       | 0.56943 s  | 1.17479 s    |
+| MyVector  | 0.328997 s   | 0.503985 s  | 0.056997 s      | 0.078014 s       | 0.613983 s | 1.88006 s    |
+
