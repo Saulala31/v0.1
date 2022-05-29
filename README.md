@@ -119,6 +119,23 @@ SSD 512 GB
 
 ### funkcijos
 
+#### Insert
+* Element can be inserted only if index < 0 || size() < index
+* Size of a 64-element vector is 64
+* Capacity of a 64-element vector is 64
+* Size after insert() 1 element is 65
+* Capacity after insert() 1 element is 128
+* Size after shrink_to_fit() is 65
+* Capacity after shrink_to_fit() is 65
+
+#### Size
+* Default-constructed Size is 0
+* Size of a 100-element vector is 100
+* Size after resize(50) is 50
+* Size after shrink_to_fit() is 50
+* Size after insert() 300 elements is 300
+* Size after erase() 1 element is 299
+
 #### Capacity
 * Default-constructed capacity is 0
 * Capacity of a 100-element vector is 100
