@@ -117,7 +117,7 @@ SSD 512 GB
 
 ## MyVector
 
-### funkcijos
+### Funkcijos
 
 #### empty
 * Vector that has 64-elements is not empty
